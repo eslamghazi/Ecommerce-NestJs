@@ -6,12 +6,22 @@ import helmet from 'helmet';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Apply Middlewares
-  app.use(helmet())
+// Apply Middlewares
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          scriptSrc: ["'self'", "'unsafe-inline'"],
+        },
+      },
+    }),
+  );
 
   // Cors Policy
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || '*',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
   });
@@ -20,8 +30,8 @@ async function bootstrap() {
   const swagger = new DocumentBuilder()
   .setTitle('Ecommerce-NestJs - App API')
   .setDescription('Ecommerce APP Using NestJs')
-  .addServer(process.env.API_BASE_URL || 'https://ecommerce-nest-js.vercel.app')
-  .setTermsOfService(`${process.env.API_BASE_URL || 'https://ecommerce-nest-js.vercel.app'}/terms-of-service`)
+  .addServer('https://ecommerce-nest-js.vercel.app')
+  .setTermsOfService(`${'https://ecommerce-nest-js.vercel.app'}/terms-of-service`)
   .setLicense('MIT License', 'https://google.com')
   .setVersion('1.0')
   .addSecurity('bearer', { type: 'http', scheme: 'bearer' })
