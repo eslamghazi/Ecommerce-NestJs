@@ -1,10 +1,10 @@
-import { Controller, Get, Redirect } from '@nestjs/common';
+import { Controller, Get } from "@nestjs/common";
 
 @Controller()
 export class AppController {
-  @Get('/')
-  @Redirect('/swagger', 302)
-  public getHome() {
-    return 'Your app is working';
-  }
+
+    @Get("/")
+    public getHome() {
+        return "Your app is working";
+    }
 }
