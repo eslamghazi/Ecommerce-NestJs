@@ -18,15 +18,14 @@ async function bootstrap() {
   const swagger = new DocumentBuilder()
   .setTitle("Ecommerce-NestJs - App API")
   .setDescription("Ecommerce APP Using NestJs")
-  .addServer("https://ecommerce-nest-js.vercel.app/swagger")
-  .setTermsOfService("https://ecommerce-nest-js.vercel.app/swagger/terms-of-service")
+  .addServer("http://localhost:5000")
+  .setTermsOfService("http://localhost:5000/terms-of-service")
   .setLicense("MIT License", "https://google.com")
   .setVersion("1.0")
   .addSecurity('bearer', { type: 'http', scheme: 'bearer' })
   .addBearerAuth()
   .build();
-const documentation = SwaggerModule.createDocument(app, swagger);
-app.use('/swagger-json', (req, res) => res.json(document));
+  const documentation = SwaggerModule.createDocument(app,  swagger);
   // http://localhost:5000/swagger
   SwaggerModule.setup("swagger", app, documentation);
 
