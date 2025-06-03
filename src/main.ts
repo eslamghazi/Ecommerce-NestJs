@@ -32,18 +32,6 @@ async function bootstrap() {
   // http://localhost:5000/swagger
   SwaggerModule.setup("swagger", app, documentation);
 
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
-      },
-    },
-  }),
-);
-
   // Running The App
   await app.listen(5000);
 }
