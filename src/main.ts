@@ -25,7 +25,8 @@ async function bootstrap() {
   .addSecurity('bearer', { type: 'http', scheme: 'bearer' })
   .addBearerAuth()
   .build();
-  const documentation = SwaggerModule.createDocument(app,  swagger);
+const documentation = SwaggerModule.createDocument(app, swagger);
+app.use('/swagger-json', (req, res) => res.json(document));
   // http://localhost:5000/swagger
   SwaggerModule.setup("swagger", app, documentation);
 
