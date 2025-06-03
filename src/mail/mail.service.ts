@@ -15,7 +15,7 @@ export class MailService {
             
             await this.mailerService.sendMail({
                 to: email,
-                from: `<no-reply@my-nestjs-app.com>`,
+                from: `<no-reply@ecommerce-nestjs.com>`,
                 subject: 'Log in',
                 template: 'login',
                 context: { email, today }
@@ -36,7 +36,7 @@ export class MailService {
         try {
             await this.mailerService.sendMail({
                 to: email,
-                from: `<no-reply@my-nestjs-app.com>`,
+                from: `<no-reply@ecommerce-nestjs.com>`,
                 subject: 'Verify your account',
                 template: 'verify-email',
                 context: { link }
@@ -56,7 +56,7 @@ export class MailService {
         try {
             await this.mailerService.sendMail({
                 to: email,
-                from: `<no-reply@my-nestjs-app.com>`,
+                from: `<no-reply@ecommerce-nestjs.com>`,
                 subject: 'Reset password',
                 template: 'reset-password',
                 context: { resetPasswordLink }
