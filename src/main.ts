@@ -1,12 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-// Apply Middlewares
+  // Apply Middlewares
   app.use(
     helmet({
       contentSecurityPolicy: {
@@ -19,31 +19,28 @@ async function bootstrap() {
     }),
   );
 
-  // Cors Policy
+  // CORS Policy
   app.enableCors({
-    origin: '*',
+    origin: process.env.CORS_ORIGIN || '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
   });
 
   // Swagger
   const swagger = new DocumentBuilder()
-  .setTitle('Ecommerce-NestJs - App API')
-  .setDescription('Ecommerce APP Using NestJs')
-  .addServer('https://ecommerce-nest-js.vercel.app')
-  .setTermsOfService(`${'https://ecommerce-nest-js.vercel.app'}/terms-of-service`)
-  .setLicense('MIT License', 'https://google.com')
-  .setVersion('1.0')
-  .addSecurity('bearer', { type: 'http', scheme: 'bearer' })
-  .addBearerAuth()
-  .build();
-  
-  const documentation = SwaggerModule.createDocument(app,  swagger);
-  // http://localhost:5000/swagger
-  SwaggerModule.setup("swagger", app, documentation);
+    .setTitle('Ecommerce-NestJs - App API')
+    .setDescription('Ecommerce APP Using NestJs')
+    .addServer(process.env.API_BASE_URL || 'https://ecommerce-nest-js.vercel.app')
+    .setTermsOfService(`${process.env.API_BASE_URL || 'https://ecommerce-nest-js.vercel.app'}/terms-of-service`)
+    .setLicense('MIT License', 'https://google.com')
+    .setVersion('1.0')
+    .addSecurity('bearer', { type: 'http', scheme: 'bearer' })
+    .addBearerAuth()
+    .build();
+  const documentation = SwaggerModule.createDocument(app, swagger);
+  SwaggerModule.setup('swagger', app, documentation);
 
   // Running The App
-  await app.listen(5000);
+  await app.listen(process.env.PORT || 5000);
 }
 bootstrap();
-
