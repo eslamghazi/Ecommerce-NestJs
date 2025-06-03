@@ -11,23 +11,38 @@ async function bootstrap() {
 
   // Cors Policy
   app.enableCors({
-    origin: "http://localhost:3000"
+    origin: process.env.CORS_ORIGIN || '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    credentials: true,
   });
 
   // Swagger
   const swagger = new DocumentBuilder()
-  .setTitle("Ecommerce-NestJs - App API")
-  .setDescription("Ecommerce APP Using NestJs")
-  .addServer("http://localhost:5000")
-  .setTermsOfService("http://localhost:5000/terms-of-service")
-  .setLicense("MIT License", "https://google.com")
-  .setVersion("1.0")
+  .setTitle('Ecommerce-NestJs - App API')
+  .setDescription('Ecommerce APP Using NestJs')
+  .addServer(process.env.API_BASE_URL || 'https://ecommerce-nest-js.vercel.app')
+  .setTermsOfService(`${process.env.API_BASE_URL || 'https://ecommerce-nest-js.vercel.app'}/terms-of-service`)
+  .setLicense('MIT License', 'https://google.com')
+  .setVersion('1.0')
   .addSecurity('bearer', { type: 'http', scheme: 'bearer' })
   .addBearerAuth()
   .build();
+  
   const documentation = SwaggerModule.createDocument(app,  swagger);
   // http://localhost:5000/swagger
   SwaggerModule.setup("swagger", app, documentation);
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+      },
+    },
+  }),
+);
 
   // Running The App
   await app.listen(5000);
