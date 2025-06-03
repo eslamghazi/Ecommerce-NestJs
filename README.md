@@ -26,8 +26,12 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## Deploy
+```bash
+https://ecommerce-nest-js.vercel.app/
+```
 
+## Installation
 ```bash
 $ npm install
 ```
